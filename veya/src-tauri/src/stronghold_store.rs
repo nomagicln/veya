@@ -72,6 +72,14 @@ impl StrongholdStore {
     /// Store an API key in the encrypted Client Store.
     /// The store key is `api_key_{config_id}`.
     pub fn store_api_key(&self, config_id: &str, key: &str) -> Result<(), VeyaError> {
+        self.store_api_key_in_memory(config_id, key)?;
+        self.commit()?;
+        Ok(())
+    }
+
+    /// Store an API key in the in-memory Client Store without persisting to disk.
+    /// Call [`commit`] afterwards to flush changes to the encrypted snapshot.
+    pub fn store_api_key_in_memory(&self, config_id: &str, key: &str) -> Result<(), VeyaError> {
         let store_key = format!("api_key_{config_id}");
 
         let stronghold = self.stronghold.lock().map_err(|e| {
@@ -88,6 +96,15 @@ impl StrongholdStore {
             .map_err(|e| {
                 VeyaError::StorageError(format!("Failed to store API key: {e}"))
             })?;
+
+        Ok(())
+    }
+
+    /// Persist the current in-memory state to the encrypted snapshot on disk.
+    pub fn commit(&self) -> Result<(), VeyaError> {
+        let stronghold = self.stronghold.lock().map_err(|e| {
+            VeyaError::StorageError(format!("Lock poisoned: {e}"))
+        })?;
 
         stronghold
             .commit_with_keyprovider(&self.snapshot_path, &self.key_provider)

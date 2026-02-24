@@ -43,12 +43,12 @@
     - 确保 SQLite 中 `api_configs.api_key_ref` 仅存储 Stronghold 引用，不存储明文
     - _需求: 5.5_
 
-  - [-] 2.3 编写 API Key 加密存储往返属性测试（Property 11: API Key 加密存储往返）
+  - [x] 2.3 编写 API Key 加密存储往返属性测试（Property 11: API Key 加密存储往返）
     - **Property 11: API Key 加密存储往返**
     - 使用 `proptest` 生成随机 API Key 字符串，验证存储后 SQLite 中仅含引用、从 Stronghold 读取返回原始值
     - **验证: 需求 5.5**
 
-- [ ] 3. 检查点 - 基础设施验证
+- [x] 3. 检查点 - 基础设施验证
   - 确保所有测试通过，如有问题请向用户确认。
 
 - [ ] 4. API Config 与 Settings 模块
