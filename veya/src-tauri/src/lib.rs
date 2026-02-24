@@ -7,6 +7,7 @@ pub mod settings;
 pub mod stronghold_store;
 pub mod text_insight;
 pub mod tts_client;
+pub mod vision_capture;
 
 use std::sync::Arc;
 use tauri::Manager;
@@ -46,6 +47,9 @@ pub fn run() {
             settings::get_settings,
             settings::update_settings,
             text_insight::analyze_text,
+            vision_capture::start_capture,
+            vision_capture::get_capture_screenshot,
+            vision_capture::process_capture,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

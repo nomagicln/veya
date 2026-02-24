@@ -123,15 +123,15 @@
     - 使用 `fast-check` 生成模拟分析结果，验证输出包含全部六个必需字段且均为非空字符串
     - **验证: 需求 1.3**
 
-- [-] 7. Vision Capture 模块（截图识别）
-  - [ ] 7.1 实现截图与区域框选
+- [x] 7. Vision Capture 模块（截图识别）
+  - [x] 7.1 实现截图与区域框选
     - 在 `src-tauri/src/vision_capture.rs` 中实现 `start_capture` Tauri Command
     - macOS：使用 `CGWindowListCreateImage` API 截取屏幕
     - Windows：使用 `Graphics.Capture` API
     - 前端创建全屏透明窗口，用户拖拽选区后将 `CaptureRegion` 坐标传回 Rust
     - _需求: 2.1_
 
-  - [ ] 7.2 实现 Native OCR 与 AI 补全流水线
+  - [x] 7.2 实现 Native OCR 与 AI 补全流水线
     - 实现 `process_capture` Tauri Command
     - macOS OCR：调用 Vision Framework `VNRecognizeTextRequest`
     - Windows OCR：调用 `Windows.Media.Ocr` API
@@ -139,17 +139,17 @@
     - 通过 `veya://vision-capture/stream-chunk` Event 推送结果，AI 推测内容标记 `is_ai_inferred: true`
     - _需求: 2.2, 2.3, 2.4, 2.5, 2.6_
 
-  - [ ]* 7.3 编写 AI 补全条件行为属性测试（Property 3: AI 补全流水线条件行为）
+  - [x] 7.3 编写 AI 补全条件行为属性测试（Property 3: AI 补全流水线条件行为）
     - **Property 3: AI 补全流水线条件行为**
     - 使用 `proptest` 生成 OCR 结果和 AI_Completion 开关状态，验证流水线条件分支正确
     - **验证: 需求 2.3, 2.4**
 
-  - [ ]* 7.4 编写 AI 推测内容标记属性测试（Property 4: AI 推测内容标记）
+  - [x] 7.4 编写 AI 推测内容标记属性测试（Property 4: AI 推测内容标记）
     - **Property 4: AI 推测内容标记**
     - 使用 `fast-check` 生成包含 AI 补全的识别结果，验证 `aiInferredRanges` 标记准确且不与原始内容重叠
     - **验证: 需求 2.5**
 
-- [ ] 8. 检查点 - 核心模块验证
+- [x] 8. 检查点 - 核心模块验证
   - 确保所有测试通过，如有问题请向用户确认。
 
 - [ ] 9. Cast Engine 模块（播客生成）
