@@ -1,4 +1,5 @@
 pub mod api_config;
+pub mod cast_engine;
 pub mod db;
 pub mod error;
 pub mod llm_client;
@@ -50,6 +51,10 @@ pub fn run() {
             vision_capture::start_capture,
             vision_capture::get_capture_screenshot,
             vision_capture::process_capture,
+            cast_engine::generate_podcast,
+            cast_engine::save_podcast,
+            cast_engine::cleanup_temp_audio,
+            cast_engine::cleanup_saved_audio,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

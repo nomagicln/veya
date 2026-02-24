@@ -5679,6 +5679,7 @@ dependencies = [
  "core-foundation 0.10.1",
  "core-foundation-sys",
  "core-graphics",
+ "filetime",
  "futures-util",
  "iota_stronghold",
  "log",

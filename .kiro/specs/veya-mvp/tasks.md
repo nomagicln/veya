@@ -152,8 +152,8 @@
 - [x] 8. 检查点 - 核心模块验证
   - 确保所有测试通过，如有问题请向用户确认。
 
-- [ ] 9. Cast Engine 模块（播客生成）
-  - [ ] 9.1 实现播客生成流水线
+- [x] 9. Cast Engine 模块（播客生成）
+  - [x] 9.1 实现播客生成流水线
     - 在 `src-tauri/src/cast_engine.rs` 中实现 `generate_podcast` Tauri Command
     - 接收 `PodcastInput`（content + source）和 `PodcastOptions`（speed + mode + target_language）
     - 流水线：构造口语讲解稿 prompt → LLM 生成讲解稿 → 分段 → TTS 合成 → 合并为 MP3
@@ -161,29 +161,29 @@
     - 默认将音频存储到 `app_cache_dir()/audio/temp/`
     - _需求: 3.1, 3.2, 3.3, 3.4_
 
-  - [ ] 9.2 实现音频存储管理
+  - [x] 9.2 实现音频存储管理
     - 实现 `save_podcast` Tauri Command：将临时音频复制到 `app_data_dir()/audio/saved/`
     - 实现 `cleanup_temp_audio` Tauri Command：清理临时缓存目录
     - 在 Tauri `on_exit` hook 中调用临时目录清理
     - 实现缓存清理策略：按最大空间和最大天数清理持久化音频
     - _需求: 3.5, 3.6, 7.3_
 
-  - [ ]* 9.3 编写播客生成流水线属性测试（Property 5: 播客生成输入接受与流水线）
+  - [x] 9.3 编写播客生成流水线属性测试（Property 5: 播客生成输入接受与流水线）
     - **Property 5: 播客生成输入接受与流水线**
     - 使用 `proptest` 生成三种来源的有效输入，验证流水线按顺序产生所有阶段输出
     - **验证: 需求 3.1, 3.2**
 
-  - [ ]* 9.4 编写播客输出格式属性测试（Property 6: 播客输出选项与格式）
+  - [x] 9.4 编写播客输出格式属性测试（Property 6: 播客输出选项与格式）
     - **Property 6: 播客输出选项与格式**
     - 使用 `proptest` 生成所有速度模式和播客模式组合，验证生成有效 MP3 文件且大小 > 0
     - **验证: 需求 3.3, 3.4**
 
-  - [ ]* 9.5 编写音频存储生命周期属性测试（Property 7: 音频存储生命周期）
+  - [x] 9.5 编写音频存储生命周期属性测试（Property 7: 音频存储生命周期）
     - **Property 7: 音频存储生命周期**
     - 使用 `proptest` 验证：默认存储在临时目录、保存后存在于持久目录、清理后临时文件删除而持久文件不受影响
     - **验证: 需求 3.5, 3.6**
 
-  - [ ]* 9.6 编写缓存清理策略属性测试（Property 14: 缓存清理策略）
+  - [x] 9.6 编写缓存清理策略属性测试（Property 14: 缓存清理策略）
     - **Property 14: 缓存清理策略**
     - 使用 `proptest` 生成随机缓存配置（最大空间 M、最大天数 D），验证清理后目录大小 ≤ M 且无超期文件
     - **验证: 需求 7.3**
