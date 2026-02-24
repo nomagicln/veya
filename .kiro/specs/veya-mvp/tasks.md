@@ -76,8 +76,8 @@
     - 使用 `proptest` 生成随机有效设置值，验证保存后读取返回完全相同的值
     - **验证: 需求 7.5, 7.6, 9.2**
 
-- [ ] 5. 统一 AI 客户端
-  - [ ] 5.1 实现 LlmClient
+- [x] 5. 统一 AI 客户端
+  - [x] 5.1 实现 LlmClient
     - 在 `src-tauri/src/llm_client.rs` 中实现 `LlmClient` 结构体
     - 实现 `stream_chat` 方法：构造 OpenAI 兼容请求，解析 SSE 流，通过 Tauri Event 逐块推送
     - 实现 `chat` 方法：非流式请求，返回完整响应
@@ -85,14 +85,14 @@
     - 集成 `RetryPolicy`，对可重试错误自动重试
     - _需求: 5.2, 5.3, 8.1_
 
-  - [ ] 5.2 实现 TtsClient
+  - [x] 5.2 实现 TtsClient
     - 在 `src-tauri/src/tts_client.rs` 中实现 `TtsClient` 结构体
     - 实现 `synthesize` 方法：发送文本到 TTS 服务，返回音频字节数据
     - 按语言代码路由到对应的 TTS 服务配置
     - 集成 `RetryPolicy`
     - _需求: 3.7, 5.2_
 
-  - [ ]* 5.3 编写 TTS 语言路由属性测试（Property 8: TTS 语言路由）
+  - [x] 5.3 编写 TTS 语言路由属性测试（Property 8: TTS 语言路由）
     - **Property 8: TTS 语言路由**
     - 使用 `proptest` 生成语言代码和多个 TTS 配置，验证请求路由到正确的语言服务地址
     - **验证: 需求 3.7**

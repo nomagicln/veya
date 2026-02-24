@@ -1,9 +1,11 @@
 pub mod api_config;
 pub mod db;
 pub mod error;
+pub mod llm_client;
 pub mod retry;
 pub mod settings;
 pub mod stronghold_store;
+pub mod tts_client;
 
 use std::sync::Arc;
 use tauri::Manager;
