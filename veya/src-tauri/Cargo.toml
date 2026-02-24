@@ -1,0 +1,32 @@
+[package]
+name = "veya"
+version = "0.1.0"
+description = "AI-powered language understanding and speaking enhancement desktop tool"
+authors = ["you"]
+edition = "2021"
+
+[lib]
+name = "veya_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+tauri-plugin-stronghold = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["full"] }
+reqwest = { version = "0.12", features = ["json", "stream"] }
+rusqlite = { version = "0.32", features = ["bundled"] }
+iota_stronghold = "2"
+zeroize = "1"
+whatlang = "0.16"
+
+[dev-dependencies]
+proptest = "1"
+tokio = { version = "1", features = ["test-util"] }
+tempfile = "3"
