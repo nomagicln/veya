@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { invoke } from "@tauri-apps/api/core";
 import { useAppStore, type AppSettings } from "../store";
@@ -36,6 +36,9 @@ export default function SettingsPage({ onNavigateApiConfig }: SettingsPageProps)
     updateStoreSettings(patch);
     try {
       await invoke("update_settings", { settings: next });
+      if (patch.shortcutCapture) {
+        await invoke("update_capture_shortcut", { shortcut: patch.shortcutCapture });
+      }
     } catch (e) {
       console.error("update_settings failed:", e);
     }
@@ -46,6 +49,84 @@ export default function SettingsPage({ onNavigateApiConfig }: SettingsPageProps)
     i18n.changeLanguage(locale);
     setLocale(locale);
   };
+
+  // --- Shortcut recorder ---
+  const [recording, setRecording] = useState(false);
+  const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
+  const shortcutInputRef = useRef<HTMLButtonElement>(null);
+  const heldRef = useRef<Set<string>>(new Set());
+  const saveRef = useRef(save);
+  saveRef.current = save;
+
+  const MODIFIERS = ["CommandOrControl", "Shift", "Alt"];
+
+  const keyToTauriToken = useCallback((e: KeyboardEvent): string | null => {
+    const { key, code } = e;
+    if (key === "Meta" || key === "Control") return "CommandOrControl";
+    if (key === "Shift") return "Shift";
+    if (key === "Alt") return "Alt";
+    if (/^Key([A-Z])$/.test(code)) return code.replace("Key", "");
+    if (/^Digit(\d)$/.test(code)) return code.replace("Digit", "");
+    if (/^F(\d+)$/.test(code)) return code;
+    const specials: Record<string, string> = {
+      Space: "Space", Enter: "Enter", Escape: "Escape",
+      ArrowUp: "Up", ArrowDown: "Down", ArrowLeft: "Left", ArrowRight: "Right",
+      Backspace: "Backspace", Delete: "Delete", Tab: "Tab",
+      Home: "Home", End: "End", PageUp: "PageUp", PageDown: "PageDown",
+      BracketLeft: "[", BracketRight: "]", Backslash: "\\",
+      Semicolon: ";", Quote: "'", Comma: ",", Period: ".", Slash: "/",
+      Minus: "-", Equal: "=", Backquote: "`",
+    };
+    return specials[code] ?? null;
+  }, []);
+
+  const formatShortcut = useCallback((keys: Set<string>): string => {
+    const order = ["CommandOrControl", "Shift", "Alt"];
+    const modifiers = order.filter((m) => keys.has(m));
+    const others = [...keys].filter((k) => !order.includes(k));
+    return [...modifiers, ...others].join("+");
+  }, []);
+
+  useEffect(() => {
+    if (!recording) {
+      heldRef.current = new Set();
+      return;
+    }
+
+    heldRef.current = new Set();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const token = keyToTauriToken(e);
+      if (!token) return;
+
+      heldRef.current.add(token);
+      setPressedKeys(new Set(heldRef.current));
+
+      // If we have at least one non-modifier key, finalize immediately
+      const hasNonModifier = [...heldRef.current].some((k) => !MODIFIERS.includes(k));
+      if (hasNonModifier) {
+        const combo = formatShortcut(heldRef.current);
+        saveRef.current({ shortcutCapture: combo });
+        setRecording(false);
+        setPressedKeys(new Set());
+      }
+    };
+
+    const onBlur = () => {
+      setRecording(false);
+      setPressedKeys(new Set());
+    };
+
+    window.addEventListener("keydown", onKeyDown, true);
+    window.addEventListener("blur", onBlur);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown, true);
+      window.removeEventListener("blur", onBlur);
+    };
+  }, [recording, keyToTauriToken, formatShortcut]);
 
   if (loading) {
     return <p className="settings-loading">{t("common.loading")}</p>;
@@ -105,16 +186,26 @@ export default function SettingsPage({ onNavigateApiConfig }: SettingsPageProps)
         />
       </label>
 
-      {/* Shortcut */}
-      <label className="settings-row">
+      {/* Shortcut recorder */}
+      <div className="settings-row">
         <span className="settings-label">{t("settings.shortcutCapture")}</span>
-        <input
-          type="text"
-          value={settings.shortcutCapture}
-          onChange={(e) => save({ shortcutCapture: e.target.value })}
-          className="settings-input-text"
-        />
-      </label>
+        <button
+          ref={shortcutInputRef}
+          type="button"
+          className={`settings-shortcut-btn${recording ? " recording" : ""}`}
+          onClick={() => {
+            setRecording(true);
+            setPressedKeys(new Set());
+          }}
+          aria-label={t("settings.shortcutCapture")}
+        >
+          {recording
+            ? pressedKeys.size > 0
+              ? formatShortcut(pressedKeys)
+              : t("settings.shortcutRecording")
+            : settings.shortcutCapture || t("settings.shortcutRecording")}
+        </button>
+      </div>
 
       {/* Language */}
       <label className="settings-row">

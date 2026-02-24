@@ -74,20 +74,37 @@ pub fn run() {
             learning_record::get_query_history,
             learning_record::get_podcast_history,
             learning_record::get_frequent_words,
+            settings::update_capture_shortcut,
         ])
         .build(tauri::generate_context!())
         .expect("error while building tauri application");
 
-    // --- on_exit hook: cleanup temp audio ---
+    // --- Run loop: hide-on-close + cleanup on exit ---
     app.run(|app_handle, event| {
-        if let RunEvent::Exit = event {
-            let handle = app_handle.clone();
-            // Block on cleanup so temp files are removed before process exits
-            tauri::async_runtime::block_on(async move {
-                if let Err(e) = cast_engine::cleanup_temp_audio(handle).await {
-                    log::warn!("Failed to cleanup temp audio on exit: {e}");
+        match event {
+            // When a window close is requested, hide it instead of destroying it
+            RunEvent::WindowEvent {
+                label,
+                event: tauri::WindowEvent::CloseRequested { api, .. },
+                ..
+            } => {
+                // Prevent the window from actually closing
+                api.prevent_close();
+                // Just hide it so the app stays in the tray
+                if let Some(win) = app_handle.get_webview_window(&label) {
+                    let _ = win.hide();
                 }
-            });
+            }
+            RunEvent::Exit => {
+                let handle = app_handle.clone();
+                // Block on cleanup so temp files are removed before process exits
+                tauri::async_runtime::block_on(async move {
+                    if let Err(e) = cast_engine::cleanup_temp_audio(handle).await {
+                        log::warn!("Failed to cleanup temp audio on exit: {e}");
+                    }
+                });
+            }
+            _ => {}
         }
     });
 }
@@ -101,25 +118,19 @@ fn setup_system_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>>
     let quit = MenuItem::with_id(app, "quit", "Exit", true, None::<&str>)?;
     let menu = Menu::with_items(app, &[&open_settings, &quit])?;
 
+    const TRAY_ICON: tauri::image::Image<'_> = tauri::include_image!("icons/32x32.png");
+
     TrayIconBuilder::new()
+        .icon(TRAY_ICON)
+        .icon_as_template(true)
         .menu(&menu)
         .show_menu_on_left_click(true)
         .on_menu_event(|app: &tauri::AppHandle, event| match event.id.as_ref() {
             "open_settings" => {
-                // Show or create the settings window
-                if let Some(win) = app.get_webview_window("settings") {
+                // Show the main window (which contains the settings page)
+                if let Some(win) = app.get_webview_window("main") {
                     let _ = win.show();
                     let _ = win.set_focus();
-                } else {
-                    use tauri::{WebviewUrl, WebviewWindowBuilder};
-                    let _ = WebviewWindowBuilder::new(
-                        app,
-                        "settings",
-                        WebviewUrl::App("/settings".into()),
-                    )
-                    .title("Veya Settings")
-                    .inner_size(720.0, 560.0)
-                    .build();
                 }
             }
             "quit" => {
@@ -132,18 +143,78 @@ fn setup_system_tray(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>>
     Ok(())
 }
 
-/// Register the global shortcut for screenshot capture (default: CommandOrControl+Shift+S).
+/// Parse a shortcut string like "CommandOrControl+Shift+S" into a Tauri Shortcut.
+#[cfg(desktop)]
+pub fn parse_shortcut(s: &str) -> Option<tauri_plugin_global_shortcut::Shortcut> {
+    use tauri_plugin_global_shortcut::{Code, Modifiers, Shortcut};
+
+    let mut modifiers = Modifiers::empty();
+    let mut code: Option<Code> = None;
+
+    for part in s.split('+') {
+        let part = part.trim();
+        match part {
+            "CommandOrControl" | "CmdOrCtrl" => modifiers |= Modifiers::SUPER,
+            "Shift" => modifiers |= Modifiers::SHIFT,
+            "Alt" | "Option" => modifiers |= Modifiers::ALT,
+            "Control" | "Ctrl" => modifiers |= Modifiers::CONTROL,
+            "Super" | "Meta" | "Command" | "Cmd" => modifiers |= Modifiers::SUPER,
+            other => {
+                code = match other.to_uppercase().as_str() {
+                    "A" => Some(Code::KeyA), "B" => Some(Code::KeyB), "C" => Some(Code::KeyC),
+                    "D" => Some(Code::KeyD), "E" => Some(Code::KeyE), "F" => Some(Code::KeyF),
+                    "G" => Some(Code::KeyG), "H" => Some(Code::KeyH), "I" => Some(Code::KeyI),
+                    "J" => Some(Code::KeyJ), "K" => Some(Code::KeyK), "L" => Some(Code::KeyL),
+                    "M" => Some(Code::KeyM), "N" => Some(Code::KeyN), "O" => Some(Code::KeyO),
+                    "P" => Some(Code::KeyP), "Q" => Some(Code::KeyQ), "R" => Some(Code::KeyR),
+                    "S" => Some(Code::KeyS), "T" => Some(Code::KeyT), "U" => Some(Code::KeyU),
+                    "V" => Some(Code::KeyV), "W" => Some(Code::KeyW), "X" => Some(Code::KeyX),
+                    "Y" => Some(Code::KeyY), "Z" => Some(Code::KeyZ),
+                    "0" => Some(Code::Digit0), "1" => Some(Code::Digit1), "2" => Some(Code::Digit2),
+                    "3" => Some(Code::Digit3), "4" => Some(Code::Digit4), "5" => Some(Code::Digit5),
+                    "6" => Some(Code::Digit6), "7" => Some(Code::Digit7), "8" => Some(Code::Digit8),
+                    "9" => Some(Code::Digit9),
+                    "F1" => Some(Code::F1), "F2" => Some(Code::F2), "F3" => Some(Code::F3),
+                    "F4" => Some(Code::F4), "F5" => Some(Code::F5), "F6" => Some(Code::F6),
+                    "F7" => Some(Code::F7), "F8" => Some(Code::F8), "F9" => Some(Code::F9),
+                    "F10" => Some(Code::F10), "F11" => Some(Code::F11), "F12" => Some(Code::F12),
+                    "SPACE" => Some(Code::Space), "ENTER" => Some(Code::Enter),
+                    "ESCAPE" | "ESC" => Some(Code::Escape),
+                    "UP" => Some(Code::ArrowUp), "DOWN" => Some(Code::ArrowDown),
+                    "LEFT" => Some(Code::ArrowLeft), "RIGHT" => Some(Code::ArrowRight),
+                    "BACKSPACE" => Some(Code::Backspace), "DELETE" => Some(Code::Delete),
+                    "TAB" => Some(Code::Tab), "HOME" => Some(Code::Home), "END" => Some(Code::End),
+                    "PAGEUP" => Some(Code::PageUp), "PAGEDOWN" => Some(Code::PageDown),
+                    "[" => Some(Code::BracketLeft), "]" => Some(Code::BracketRight),
+                    "\\" => Some(Code::Backslash), ";" => Some(Code::Semicolon),
+                    "'" => Some(Code::Quote), "," => Some(Code::Comma), "." => Some(Code::Period),
+                    "/" => Some(Code::Slash), "-" => Some(Code::Minus), "=" => Some(Code::Equal),
+                    "`" => Some(Code::Backquote),
+                    _ => None,
+                };
+            }
+        }
+    }
+
+    let mods = if modifiers.is_empty() { None } else { Some(modifiers) };
+    code.map(|c| Shortcut::new(mods, c))
+}
+
+/// Register the global shortcut for screenshot capture, reading from settings.
 fn setup_global_shortcut(app: &tauri::App) -> Result<(), Box<dyn std::error::Error>> {
     #[cfg(desktop)]
     {
-        use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut, ShortcutState};
+        use tauri_plugin_global_shortcut::{GlobalShortcutExt, ShortcutState};
 
-        let capture_shortcut = Shortcut::new(Some(Modifiers::SUPER | Modifiers::SHIFT), Code::KeyS);
+        // Read shortcut from DB, fall back to default
+        let db = app.state::<Arc<db::Database>>();
+        let app_settings = settings::AppSettings::load(&db).unwrap_or_default();
+        let shortcut_str = app_settings.shortcut_capture;
 
         app.handle().plugin(
             tauri_plugin_global_shortcut::Builder::new()
-                .with_handler(move |app, shortcut, event| {
-                    if shortcut == &capture_shortcut && event.state() == ShortcutState::Pressed {
+                .with_handler(move |app, _shortcut, event| {
+                    if event.state() == ShortcutState::Pressed {
                         let handle = app.clone();
                         tauri::async_runtime::spawn(async move {
                             if let Err(e) = vision_capture::start_capture(handle).await {
@@ -155,8 +226,15 @@ fn setup_global_shortcut(app: &tauri::App) -> Result<(), Box<dyn std::error::Err
                 .build(),
         )?;
 
-        app.global_shortcut().register(capture_shortcut)?;
+        if let Some(shortcut) = parse_shortcut(&shortcut_str) {
+            if let Err(e) = app.global_shortcut().register(shortcut) {
+                log::warn!("Failed to register shortcut '{shortcut_str}': {e}");
+            }
+        } else {
+            log::warn!("Failed to parse shortcut string: {shortcut_str}");
+        }
     }
 
     Ok(())
 }
+

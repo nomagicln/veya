@@ -46,6 +46,8 @@
     "cacheAutoCleanDays": "自动清理天数",
     "retryCount": "重试次数",
     "shortcutCapture": "截图快捷键",
+    "shortcutRecording": "请按下组合键...",
+    "shortcutClear": "清除",
     "language": "界面语言",
     "apiConfig": "模型 API 配置"
   },

@@ -25,6 +25,9 @@ pub enum VeyaError {
 
     #[error("系统权限不足: {0}")]
     PermissionDenied(String),
+
+    #[error("{0}")]
+    Generic(String),
 }
 
 impl VeyaError {

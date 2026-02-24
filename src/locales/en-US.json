@@ -46,6 +46,8 @@
     "cacheAutoCleanDays": "Auto Clean Days",
     "retryCount": "Retry Count",
     "shortcutCapture": "Capture Shortcut",
+    "shortcutRecording": "Press a key combination...",
+    "shortcutClear": "Clear",
     "language": "Language",
     "apiConfig": "Model API Configuration"
   },

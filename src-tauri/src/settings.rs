@@ -156,3 +156,28 @@ mod tests {
         assert_eq!(loaded.retry_count, 3);
     }
 }
+
+/// Re-register the capture shortcut after settings change.
+#[tauri::command]
+pub async fn update_capture_shortcut(
+    app: tauri::AppHandle,
+    shortcut: String,
+) -> Result<(), VeyaError> {
+    #[cfg(desktop)]
+    {
+        use tauri_plugin_global_shortcut::GlobalShortcutExt;
+
+        let _ = app.global_shortcut().unregister_all();
+
+        if let Some(sc) = crate::parse_shortcut(&shortcut) {
+            app.global_shortcut().register(sc).map_err(|e| {
+                VeyaError::Generic(format!("Failed to register shortcut: {e}"))
+            })?;
+        } else {
+            return Err(VeyaError::Generic(
+                format!("Invalid shortcut string: {shortcut}"),
+            ));
+        }
+    }
+    Ok(())
+}

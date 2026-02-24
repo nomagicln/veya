@@ -311,3 +311,33 @@
   color: #000;
   border-color: #4fc3f7;
 }
+
+/* ── Shortcut recorder button ──────────────────────────── */
+
+.settings-shortcut-btn {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-family: monospace;
+  border-radius: 6px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  background: transparent;
+  cursor: pointer;
+  min-width: 180px;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.settings-shortcut-btn:hover {
+  background: rgba(128, 128, 128, 0.08);
+}
+
+.settings-shortcut-btn.recording {
+  border-color: #4fc3f7;
+  background: rgba(79, 195, 247, 0.08);
+  animation: shortcut-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes shortcut-pulse {
+  0%, 100% { border-color: #4fc3f7; }
+  50% { border-color: rgba(79, 195, 247, 0.4); }
+}
