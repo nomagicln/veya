@@ -1,49 +1,43 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
+import { useTranslation } from "react-i18next";
+import SettingsPage from "./components/SettingsPage";
+import ApiConfigPage from "./components/ApiConfigPage";
+import LearningPage from "./components/LearningPage";
+import "./components/Pages.css";
 import "./App.css";
 
-function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+type Page = "settings" | "apiConfig" | "learning";
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
+function App() {
+  const { t } = useTranslation();
+  const [page, setPage] = useState<Page>("settings");
 
   return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
+    <main>
+      {page !== "apiConfig" && (
+        <nav className="app-nav" aria-label="Main navigation">
+          <button
+            className={page === "settings" ? "active" : ""}
+            onClick={() => setPage("settings")}
+          >
+            ⚙️ {t("nav.settings")}
+          </button>
+          <button
+            className={page === "learning" ? "active" : ""}
+            onClick={() => setPage("learning")}
+          >
+            📚 {t("nav.learning")}
+          </button>
+        </nav>
+      )}
 
-      <div className="row">
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
+      {page === "settings" && (
+        <SettingsPage onNavigateApiConfig={() => setPage("apiConfig")} />
+      )}
+      {page === "apiConfig" && (
+        <ApiConfigPage onBack={() => setPage("settings")} />
+      )}
+      {page === "learning" && <LearningPage />}
     </main>
   );
 }

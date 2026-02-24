@@ -188,8 +188,8 @@
     - 使用 `proptest` 生成随机缓存配置（最大空间 M、最大天数 D），验证清理后目录大小 ≤ M 且无超期文件
     - **验证: 需求 7.3**
 
-- [ ] 10. Learning Record 模块
-  - [ ] 10.1 实现学习记录 CRUD 与词频统计
+- [x] 10. Learning Record 模块
+  - [x] 10.1 实现学习记录 CRUD 与词频统计
     - 在 `src-tauri/src/learning_record.rs` 中实现全部 Tauri Command
     - `save_query_record`：保存查询记录到 `query_records` 表
     - `save_podcast_record`：保存播客记录到 `podcast_records` 表
@@ -198,21 +198,21 @@
     - 在保存查询记录时自动更新 `word_frequency` 表（分词后逐词计数）
     - _需求: 6.1, 6.2, 6.3, 6.4_
 
-  - [ ]* 10.2 编写学习记录持久化属性测试（Property 12: 学习记录自动持久化）
+  - [x] 10.2 编写学习记录持久化属性测试（Property 12: 学习记录自动持久化）
     - **Property 12: 学习记录自动持久化**
     - 使用 `proptest` 生成查询/播客记录，验证保存后数据库中存在对应记录且包含所有必需字段
     - **验证: 需求 6.1, 6.2**
 
-  - [ ]* 10.3 编写词频统计属性测试（Property 13: 词频统计准确性）
+  - [x] 10.3 编写词频统计属性测试（Property 13: 词频统计准确性）
     - **Property 13: 词频统计准确性**
     - 使用 `proptest` 生成查询序列，验证常用词列表中每个词的频次等于该词在所有查询中出现的总次数
     - **验证: 需求 6.3**
 
-- [ ] 11. 检查点 - 后端模块完整性验证
+- [x] 11. 检查点 - 后端模块完整性验证
   - 确保所有测试通过，如有问题请向用户确认。
 
-- [ ] 12. i18n 国际化
-  - [ ] 12.1 搭建 i18n 基础设施
+- [x] 12. i18n 国际化
+  - [x] 12.1 搭建 i18n 基础设施
     - 配置 `react-i18next`：初始化 i18n 实例，设置默认语言为 `zh-CN`
     - 创建 `src/locales/zh-CN.json` 和 `src/locales/en-US.json` 翻译文件
     - 按模块组织翻译 key（如 `textInsight.original`、`settings.aiCompletion`、`castEngine.generate`）
@@ -220,14 +220,14 @@
     - 语言切换通过 `i18n.changeLanguage()` 即时生效
     - _需求: 9.1, 9.2, 9.3_
 
-- [ ] 13. 前端状态管理与悬浮窗
-  - [ ] 13.1 搭建全局状态管理
+- [x] 13. 前端状态管理与悬浮窗
+  - [x] 13.1 搭建全局状态管理
     - 使用 Zustand 创建 `useAppStore`，定义 `AppState` 接口
     - 包含：`floatingWindow`（visible、pinned、position、currentContent、audioState）、`settings`、`locale`
     - 实现状态更新 actions：`showWindow`、`hideWindow`、`togglePin`、`updateContent`、`updateSettings`
     - _需求: 4.1, 4.2, 4.3_
 
-  - [ ] 13.2 实现悬浮窗核心组件
+  - [x] 13.2 实现悬浮窗核心组件
     - 实现 `FloatingWindow` 根组件：监听 Tauri Event，管理窗口显示/隐藏
     - 实现 `StreamContent` 组件：渲染六个结构化字段，支持流式逐步显示
     - 实现 `ActionBar` 组件：PodcastButton、PinButton、CopyButton
@@ -235,26 +235,26 @@
     - 所有文本使用 `useTranslation()` hook 实现 i18n
     - _需求: 1.2, 1.3, 2.5, 2.6, 4.1, 4.4, 4.5_
 
-  - [ ] 13.3 实现悬浮窗 Pin/隐藏行为
+  - [x] 13.3 实现悬浮窗 Pin/隐藏行为
     - 监听窗口 `blur` 事件：未 Pin 时调用 `hide_floating_window` Command
     - Pin 按钮点击调用 `toggle_pin` Command，切换 `always_on_top` 状态
     - 窗口位置：划词场景跟随鼠标光标，截图场景居中显示
     - _需求: 4.2, 4.3_
 
-  - [ ]* 13.4 编写悬浮窗状态机属性测试（Property 9: 悬浮窗 Pin/隐藏状态机）
+  - [x] 13.4 编写悬浮窗状态机属性测试（Property 9: 悬浮窗 Pin/隐藏状态机）
     - **Property 9: 悬浮窗 Pin/隐藏状态机**
     - 使用 `fast-check` 生成随机 pin 状态，验证 blur 事件后的可见性行为正确
     - **验证: 需求 4.2, 4.3**
 
-- [ ] 14. 设置页与学习记录页
-  - [ ] 14.1 实现设置页面
+- [x] 14. 设置页与学习记录页
+  - [x] 14.1 实现设置页面
     - 创建 `SettingsPage` 组件
     - 包含：AI 补全开关、TTS 服务配置、缓存清理策略、模型 API 配置入口、全局快捷键配置、界面语言切换
     - 调用 `get_settings` / `update_settings` Command 读写设置
     - 语言切换时同步调用 `i18n.changeLanguage()` 和 `update_settings`
     - _需求: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7_
 
-  - [ ] 14.2 实现 API 配置界面
+  - [x] 14.2 实现 API 配置界面
     - 创建 API 配置组件：列表展示、新增/编辑/删除配置
     - 支持选择 provider（OpenAI、Anthropic、ElevenLabs、Ollama、Custom）
     - 支持配置 base_url、model_name、API Key
@@ -262,15 +262,15 @@
     - 提供连接测试按钮，调用 `test_api_connection` Command
     - _需求: 5.1, 5.2, 5.3, 5.4_
 
-  - [ ] 14.3 实现学习记录页面
+  - [x] 14.3 实现学习记录页面
     - 创建 `LearningPage` 组件
     - 查询历史列表：分页展示，显示输入内容、来源、时间
     - 播客历史列表：分页展示，显示输入内容、音频路径、时间
     - 常用词列表：按频次排序展示
     - _需求: 6.3, 6.4_
 
-- [ ] 15. 全局集成与联调
-  - [ ] 15.1 注册 Tauri Command 与 Event 监听
+- [x] 15. 全局集成与联调
+  - [x] 15.1 注册 Tauri Command 与 Event 监听
     - 在 `main.rs` 中注册所有 Tauri Command
     - 配置全局快捷键（截图触发）
     - 配置系统托盘菜单（打开设置、退出）
@@ -278,7 +278,7 @@
     - 启动 `TextInsightListener` 监听划词事件
     - _需求: 全部_
 
-  - [ ] 15.2 连接前后端数据流
+  - [x] 15.2 连接前后端数据流
     - 前端监听 `veya://text-insight/stream-chunk` Event，驱动 StreamContent 渲染
     - 前端监听 `veya://vision-capture/stream-chunk` Event，驱动截图结果渲染（含 AI 推测标记）
     - 前端监听 `veya://cast-engine/progress` Event，驱动播客生成进度和音频播放
@@ -286,7 +286,7 @@
     - 划词/截图完成后自动调用 `save_query_record` 保存学习记录
     - _需求: 1.2, 2.6, 3.2, 4.1, 6.1, 8.2_
 
-- [ ] 16. 最终检查点 - 全部验证
+- [x] 16. 最终检查点 - 全部验证
   - 确保所有测试通过，如有问题请向用户确认。
 
 ## 备注

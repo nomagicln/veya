@@ -1,0 +1,313 @@
+/* ── Shared page layout ─────────────────────────────────── */
+
+.settings-page,
+.api-config-page,
+.learning-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.settings-title {
+  font-size: 1.25rem;
+  margin: 0 0 16px;
+}
+
+.settings-loading {
+  text-align: center;
+  padding: 40px;
+  opacity: 0.6;
+}
+
+/* ── Settings rows ─────────────────────────────────────── */
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+  gap: 12px;
+}
+
+.settings-label {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.settings-hint {
+  font-size: 0.75rem;
+  opacity: 0.55;
+  margin: -4px 0 4px;
+}
+
+.settings-input-number {
+  width: 80px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  background: transparent;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+.settings-input-text {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  background: transparent;
+  font-size: 0.9rem;
+}
+
+.settings-select {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  background: transparent;
+  font-size: 0.9rem;
+}
+
+.settings-btn {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.settings-btn:hover:not(:disabled) {
+  background: rgba(128, 128, 128, 0.1);
+}
+
+.settings-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.settings-btn.primary {
+  background: #4fc3f7;
+  color: #000;
+  border-color: #4fc3f7;
+}
+
+.settings-btn.primary:hover:not(:disabled) {
+  background: #39b0e4;
+}
+
+.settings-btn.danger {
+  color: #e57373;
+  border-color: #e57373;
+}
+
+.settings-btn.danger:hover:not(:disabled) {
+  background: rgba(229, 115, 115, 0.1);
+}
+
+.back-btn {
+  margin-bottom: 12px;
+}
+
+/* ── API Config ────────────────────────────────────────── */
+
+.add-btn {
+  margin-bottom: 12px;
+}
+
+.api-config-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.api-config-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+  gap: 8px;
+}
+
+.api-config-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.api-config-item-info strong {
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.api-config-meta {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.api-config-item-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.api-config-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 16px;
+}
+
+.api-config-test-result {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(128, 128, 128, 0.08);
+}
+
+.empty-hint {
+  text-align: center;
+  opacity: 0.5;
+  padding: 24px 0;
+}
+
+/* ── Learning page ─────────────────────────────────────── */
+
+.learning-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.15);
+}
+
+.learning-tab {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  opacity: 0.6;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+
+.learning-tab:hover {
+  opacity: 0.8;
+}
+
+.learning-tab.active {
+  opacity: 1;
+  border-bottom-color: #4fc3f7;
+}
+
+.record-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.record-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.12);
+  font-size: 0.85rem;
+}
+
+.record-source {
+  flex-shrink: 0;
+}
+
+.record-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.record-meta {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.record-time {
+  font-size: 0.75rem;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.word-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.word-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 16px;
+  background: rgba(128, 128, 128, 0.08);
+  font-size: 0.85rem;
+}
+
+.word-count {
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 16px;
+}
+
+.pagination-info {
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+/* ── App nav ───────────────────────────────────────────── */
+
+.app-nav {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+}
+
+.app-nav button {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.app-nav button:hover {
+  background: rgba(128, 128, 128, 0.1);
+}
+
+.app-nav button.active {
+  background: #4fc3f7;
+  color: #000;
+  border-color: #4fc3f7;
+}

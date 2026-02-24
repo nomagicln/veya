@@ -1,0 +1,109 @@
+{
+  "textInsight": {
+    "original": "Original",
+    "wordByWord": "Word by Word",
+    "structure": "Sentence Structure",
+    "translation": "Translation",
+    "colloquial": "Colloquial Version",
+    "simplified": "Simplified Version",
+    "analyzing": "Analyzing..."
+  },
+  "visionCapture": {
+    "capture": "Screenshot Recognition",
+    "ocrResult": "OCR Result",
+    "aiInferred": "AI Inferred Content",
+    "selectRegion": "Select a region to recognize"
+  },
+  "castEngine": {
+    "generate": "Generate Podcast",
+    "generating": "Generating...",
+    "scriptGenerating": "Generating script...",
+    "ttsProgress": "Synthesizing audio...",
+    "done": "Complete",
+    "save": "Save Audio",
+    "speedSlow": "Slow",
+    "speedNormal": "Normal",
+    "modeBilingual": "Bilingual",
+    "modeImmersive": "Immersive"
+  },
+  "floatingWindow": {
+    "pin": "Pin Window",
+    "unpin": "Unpin",
+    "copy": "Copy",
+    "close": "Close"
+  },
+  "audioPlayer": {
+    "play": "Play",
+    "pause": "Pause",
+    "save": "Save"
+  },
+  "settings": {
+    "title": "Settings",
+    "aiCompletion": "AI Completion",
+    "aiCompletionDesc": "Enable AI completion for screenshot recognition",
+    "ttsService": "TTS Service Configuration",
+    "cacheMaxSize": "Max Cache Size (MB)",
+    "cacheAutoCleanDays": "Auto Clean Days",
+    "retryCount": "Retry Count",
+    "shortcutCapture": "Capture Shortcut",
+    "language": "Language",
+    "apiConfig": "Model API Configuration"
+  },
+  "learningRecord": {
+    "title": "Learning Records",
+    "queryHistory": "Query History",
+    "podcastHistory": "Podcast History",
+    "frequentWords": "Frequent Words",
+    "noRecords": "No records yet",
+    "source": "Source",
+    "time": "Time"
+  },
+  "errors": {
+    "invalidApiKey": "Invalid API Key, please check your configuration",
+    "insufficientBalance": "Insufficient API balance, please top up",
+    "networkTimeout": "Network timeout, retrying...",
+    "modelUnavailable": "Model temporarily unavailable, retrying...",
+    "ocrFailed": "Text recognition failed, please try again",
+    "ttsFailed": "Audio generation failed, retrying...",
+    "storageError": "Storage error, please check disk space",
+    "permissionDenied": "Insufficient permissions, please grant access in system settings"
+  },
+  "common": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "retry": "Retry",
+    "save": "Save",
+    "back": "Back",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {{page}}"
+  },
+  "nav": {
+    "settings": "Settings",
+    "learning": "Learning Records"
+  },
+  "apiConfig": {
+    "title": "API Configuration",
+    "add": "Add Configuration",
+    "edit": "Edit",
+    "delete": "Delete",
+    "testConnection": "Test Connection",
+    "connectionSuccess": "Connection Successful",
+    "connectionFailed": "Connection Failed",
+    "provider": "Provider",
+    "baseUrl": "Base URL",
+    "modelName": "Model Name",
+    "apiKey": "API Key",
+    "modelType": "Model Type",
+    "modelTypeText": "Text Model",
+    "modelTypeVision": "Vision Model",
+    "modelTypeTts": "TTS Model",
+    "language": "Language Binding",
+    "name": "Config Name",
+    "isLocal": "Local Model",
+    "testing": "Testing...",
+    "confirmDelete": "Are you sure you want to delete this configuration?",
+    "noConfigs": "No configurations yet"
+  }
+}

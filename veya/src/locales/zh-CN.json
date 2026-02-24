@@ -1,0 +1,109 @@
+{
+  "textInsight": {
+    "original": "原文",
+    "wordByWord": "逐词解释",
+    "structure": "句子结构分析",
+    "translation": "精准翻译",
+    "colloquial": "口语版本",
+    "simplified": "简化版本",
+    "analyzing": "正在分析..."
+  },
+  "visionCapture": {
+    "capture": "截图识别",
+    "ocrResult": "OCR 识别结果",
+    "aiInferred": "AI 推测内容",
+    "selectRegion": "请框选识别区域"
+  },
+  "castEngine": {
+    "generate": "生成播客",
+    "generating": "正在生成...",
+    "scriptGenerating": "正在生成讲解稿...",
+    "ttsProgress": "正在合成语音...",
+    "done": "生成完成",
+    "save": "保存音频",
+    "speedSlow": "慢速",
+    "speedNormal": "正常语速",
+    "modeBilingual": "双语对照",
+    "modeImmersive": "单语沉浸"
+  },
+  "floatingWindow": {
+    "pin": "固定窗口",
+    "unpin": "取消固定",
+    "copy": "复制",
+    "close": "关闭"
+  },
+  "audioPlayer": {
+    "play": "播放",
+    "pause": "暂停",
+    "save": "保存"
+  },
+  "settings": {
+    "title": "设置",
+    "aiCompletion": "AI 智能补全",
+    "aiCompletionDesc": "截图识别时启用 AI 补全",
+    "ttsService": "TTS 服务配置",
+    "cacheMaxSize": "最大缓存空间 (MB)",
+    "cacheAutoCleanDays": "自动清理天数",
+    "retryCount": "重试次数",
+    "shortcutCapture": "截图快捷键",
+    "language": "界面语言",
+    "apiConfig": "模型 API 配置"
+  },
+  "learningRecord": {
+    "title": "学习记录",
+    "queryHistory": "查询历史",
+    "podcastHistory": "播客历史",
+    "frequentWords": "常用词",
+    "noRecords": "暂无记录",
+    "source": "来源",
+    "time": "时间"
+  },
+  "errors": {
+    "invalidApiKey": "API Key 无效，请检查配置",
+    "insufficientBalance": "API 余额不足，请充值",
+    "networkTimeout": "网络连接超时，正在重试...",
+    "modelUnavailable": "模型暂时不可用，正在重试...",
+    "ocrFailed": "文字识别失败，请重新截图",
+    "ttsFailed": "音频生成失败，正在重试...",
+    "storageError": "数据存储失败，请检查磁盘空间",
+    "permissionDenied": "系统权限不足，请在系统设置中授权"
+  },
+  "common": {
+    "confirm": "确认",
+    "cancel": "取消",
+    "loading": "加载中...",
+    "retry": "重试",
+    "save": "保存",
+    "back": "返回",
+    "previous": "上一页",
+    "next": "下一页",
+    "page": "第 {{page}} 页"
+  },
+  "nav": {
+    "settings": "设置",
+    "learning": "学习记录"
+  },
+  "apiConfig": {
+    "title": "API 配置",
+    "add": "添加配置",
+    "edit": "编辑",
+    "delete": "删除",
+    "testConnection": "测试连接",
+    "connectionSuccess": "连接成功",
+    "connectionFailed": "连接失败",
+    "provider": "服务商",
+    "baseUrl": "Base URL",
+    "modelName": "模型名称",
+    "apiKey": "API Key",
+    "modelType": "模型类型",
+    "modelTypeText": "文本模型",
+    "modelTypeVision": "视觉模型",
+    "modelTypeTts": "语音模型",
+    "language": "语言绑定",
+    "name": "配置名称",
+    "isLocal": "本地模型",
+    "testing": "测试中...",
+    "confirmDelete": "确定要删除此配置吗？",
+    "noConfigs": "暂无配置"
+  }
+}
