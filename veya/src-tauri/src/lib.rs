@@ -5,6 +5,7 @@ pub mod llm_client;
 pub mod retry;
 pub mod settings;
 pub mod stronghold_store;
+pub mod text_insight;
 pub mod tts_client;
 
 use std::sync::Arc;
@@ -44,6 +45,7 @@ pub fn run() {
             api_config::test_api_connection,
             settings::get_settings,
             settings::update_settings,
+            text_insight::analyze_text,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

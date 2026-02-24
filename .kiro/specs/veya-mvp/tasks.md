@@ -97,15 +97,15 @@
     - 使用 `proptest` 生成语言代码和多个 TTS 配置，验证请求路由到正确的语言服务地址
     - **验证: 需求 3.7**
 
-- [ ] 6. Text Insight 模块（划词解析）
-  - [ ] 6.1 实现 Accessibility API 监听与文本获取
+- [x] 6. Text Insight 模块（划词解析）
+  - [x] 6.1 实现 Accessibility API 监听与文本获取
     - 在 `src-tauri/src/text_insight.rs` 中实现 `TextInsightListener`
     - macOS：使用 `accessibility-sys` 监听 `AXSelectedTextChanged`
     - Windows：使用 `windows-rs` UI Automation API
     - 获取划选文本后通过 `on_text_selected` 触发分析流程
     - _需求: 1.1_
 
-  - [ ] 6.2 实现文本分析与流式输出
+  - [x] 6.2 实现文本分析与流式输出
     - 实现 `analyze_text` Tauri Command
     - 使用 `whatlang` crate 检测文本语言
     - 构造结构化分析 prompt，通过 `LlmClient.stream_chat` 流式调用
@@ -113,17 +113,17 @@
     - 输出六个结构化字段：original、word_by_word、structure、translation、colloquial、simplified
     - _需求: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-  - [ ]* 6.3 编写语言检测属性测试（Property 1: 语言检测准确性）
+  - [x] 6.3 编写语言检测属性测试（Property 1: 语言检测准确性）
     - **Property 1: 语言检测准确性**
     - 使用 `proptest` 生成非空文本，验证语言检测函数返回有效语言代码
     - **验证: 需求 1.1**
 
-  - [ ]* 6.4 编写结构化输出完整性属性测试（Property 2: 结构化输出完整性）
+  - [x] 6.4 编写结构化输出完整性属性测试（Property 2: 结构化输出完整性）
     - **Property 2: 结构化输出完整性**
     - 使用 `fast-check` 生成模拟分析结果，验证输出包含全部六个必需字段且均为非空字符串
     - **验证: 需求 1.3**
 
-- [ ] 7. Vision Capture 模块（截图识别）
+- [-] 7. Vision Capture 模块（截图识别）
   - [ ] 7.1 实现截图与区域框选
     - 在 `src-tauri/src/vision_capture.rs` 中实现 `start_capture` Tauri Command
     - macOS：使用 `CGWindowListCreateImage` API 截取屏幕

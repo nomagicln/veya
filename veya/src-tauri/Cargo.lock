@@ -5657,8 +5657,11 @@ checksum = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
 name = "veya"
 version = "0.1.0"
 dependencies = [
+ "core-foundation 0.10.1",
+ "core-foundation-sys",
  "futures-util",
  "iota_stronghold",
+ "log",
  "proptest",
  "reqwest 0.12.28",
  "rusqlite",
@@ -5671,6 +5674,7 @@ dependencies = [
  "tempfile",
  "thiserror 2.0.18",
  "tokio",
+ "uuid",
  "whatlang",
  "zeroize",
 ]
