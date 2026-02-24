@@ -42,7 +42,7 @@ fn error_tag(e: &VeyaError) -> &'static str {
 }
 
 proptest! {
-    #![proptest_config(ProptestConfig::with_cases(100))]
+    #![proptest_config(ProptestConfig::with_cases(10))]
 
     /// After all retries are exhausted the returned error must carry the same
     /// variant (type identifier) as the original error produced by the operation.

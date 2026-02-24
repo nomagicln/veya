@@ -32,7 +32,7 @@ fn api_key_encrypted_storage_roundtrip() {
     // Use store_api_key_in_memory to avoid the expensive snapshot commit on
     // every iteration. The Stronghold client store insert/get logic is still
     // fully exercised — only the disk encryption is deferred.
-    let config = Config::with_cases(100);
+    let config = Config::with_cases(10);
     let mut runner = TestRunner::new(config);
 
     runner

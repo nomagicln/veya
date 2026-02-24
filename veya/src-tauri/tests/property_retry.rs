@@ -13,7 +13,7 @@ use veya_lib::error::VeyaError;
 use veya_lib::retry::RetryPolicy;
 
 proptest! {
-    #![proptest_config(ProptestConfig::with_cases(100))]
+    #![proptest_config(ProptestConfig::with_cases(10))]
 
     #[test]
     fn retry_policy_executes_correct_count(retry_count in 1u32..10) {

@@ -51,27 +51,27 @@
 - [x] 3. 检查点 - 基础设施验证
   - 确保所有测试通过，如有问题请向用户确认。
 
-- [ ] 4. API Config 与 Settings 模块
-  - [ ] 4.1 实现 API Config 模块
+- [x] 4. API Config 与 Settings 模块
+  - [x] 4.1 实现 API Config 模块
     - 在 `src-tauri/src/api_config.rs` 中定义 `ApiConfig`、`ApiProvider`、`ModelType` 结构体/枚举
     - 实现 Tauri Command：`get_api_configs`、`save_api_config`、`test_api_connection`
     - `save_api_config` 内部将 API Key 存入 Stronghold，元数据存入 SQLite
     - 支持 OpenAI、Anthropic、ElevenLabs、Ollama、Custom 五种 provider
     - _需求: 5.1, 5.2, 5.3, 5.4, 5.5_
 
-  - [ ]* 4.2 编写 API 配置独立性与持久化属性测试（Property 10: API 配置独立性与持久化）
+  - [x] 4.2 编写 API 配置独立性与持久化属性测试（Property 10: API 配置独立性与持久化）
     - **Property 10: API 配置独立性与持久化**
     - 使用 `proptest` 生成不同 model_type 的配置，验证独立存储和检索、保存后读取字段一致
     - **验证: 需求 5.1, 5.2**
 
-  - [ ] 4.3 实现 Settings 模块
+  - [x] 4.3 实现 Settings 模块
     - 在 `src-tauri/src/settings.rs` 中定义 `AppSettings` 结构体
     - 实现 Tauri Command：`get_settings`、`update_settings`
     - 设置项存储在 SQLite `settings` 表中，key-value 格式
     - 包含：`ai_completion_enabled`、`cache_max_size_mb`、`cache_auto_clean_days`、`retry_count`、`shortcut_capture`、`locale`
     - _需求: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6_
 
-  - [ ]* 4.4 编写设置往返一致性属性测试（Property 15: 设置往返一致性）
+  - [x] 4.4 编写设置往返一致性属性测试（Property 15: 设置往返一致性）
     - **Property 15: 设置往返一致性**
     - 使用 `proptest` 生成随机有效设置值，验证保存后读取返回完全相同的值
     - **验证: 需求 7.5, 7.6, 9.2**
